@@ -1,36 +1,43 @@
 const API_URL = "https://fsa-puppy-bowl.herokuapp.com/api/2308-ACC-PT-WEB-PT-A";
 
-export async function getPlayers() {
+export async function AllPlayers() {
   try {
     const response = await fetch(`${API_URL}/players`);
     const result = await response.json();
-    return result.data.players;
+    return result;
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function getPlayer(playerId) {
+export const getSinglePlayer = async (playerId) => {
   try {
-    const response = await fetch(`${API_URL}/players/${playerId}`);
+    const response = await fetch(`${API_URL}/players/${playerId}`, {
+      headers: {
+        'Content-Type': 'application.json' , 
+      },
+    });
     const result = await response.json();
-    return result.data.player;
+    return result;
   } catch (error) {
     console.error(error);
   }
 }
 
-export async function createPlayer(player) {
+export async function createPlayer(name, breed) {
   try {
     const response = await fetch(`${API_URL}/players`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify(player),
+      body: JSON.stringify({
+        name,
+        breed
+      }),
     });
     const result = await response.json();
-    return result.data.newPlayer;
+    return result;
   } catch (error) {
     console.error(error);
   }
@@ -47,12 +54,4 @@ export async function deletePlayer(playerId) {
   }
 }
 
-export async function getTeams() {
-    try {
-      const response = await fetch(`${API_URL}/teams`);
-      const result = await response.json();
-      return result.data.teams;
-    } catch (error) {
-      console.error(error);
-    }
-  }
+
